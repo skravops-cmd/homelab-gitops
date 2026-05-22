@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: nginx.local
+    - host: nginx.skravops.xyz
       http:
         paths:
           - path: /
