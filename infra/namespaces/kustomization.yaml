@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - apps.yaml
   - argocd.yaml
+  - argocd-cmd-params-cm.yaml
   - monitoring.yaml
   - data.yaml
   - ai.yaml
