@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zen-timer
+  namespace: apps
 spec:
   replicas: 1
   selector:
@@ -12,8 +13,18 @@ spec:
       labels:
         app: zen-timer
     spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
       containers:
         - name: zen-timer
           image: ghcr.io/skravops-cmd/zen-timer:latest
           ports:
             - containerPort: 80
+
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
