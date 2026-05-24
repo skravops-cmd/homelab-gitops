@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zen-timer
+spec:
+  selector:
+    app: zen-timer
+  ports:
+    - port: 80
+      targetPort: 80

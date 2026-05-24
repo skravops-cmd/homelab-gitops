@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zen-timer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zen-timer
+  template:
+    metadata:
+      labels:
+        app: zen-timer
+    spec:
+      containers:
+        - name: zen-timer
+          image: ghcr.io/skravops-cmd/zen-timer:latest
+          ports:
+            - containerPort: 80
