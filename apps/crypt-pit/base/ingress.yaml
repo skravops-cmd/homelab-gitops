@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: zen-timer
+                name: crypt-pit
                 port:
                   number: 80
