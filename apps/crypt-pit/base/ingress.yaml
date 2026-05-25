@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: crypt-pit
+  namespace: apps
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: crypt-pit.skravops.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zen-timer
+                port:
+                  number: 80

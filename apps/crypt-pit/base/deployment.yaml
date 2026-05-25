@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypt-pit
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypt-pit
+  template:
+    metadata:
+      labels:
+        app: crypt-pit
+    spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
+      containers:
+        - name: crypt-pit
+          image: ghcr.io/skravops-cmd/crypt-pit:latest
+          ports:
+            - containerPort: 80
+
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
