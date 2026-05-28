@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dish-lab-mongo
+  namespace: data
+spec:
+  selector:
+    app: dish-lab-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017

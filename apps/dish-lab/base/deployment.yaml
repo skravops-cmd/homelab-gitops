@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dish-lab
+  namespace: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dish-lab
+  template:
+    metadata:
+      labels:
+        app: dish-lab
+    spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
+      containers:
+        - name: dish-lab
+          image: ghcr.io/dish-lab/stage:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: dish-lab-secret
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
