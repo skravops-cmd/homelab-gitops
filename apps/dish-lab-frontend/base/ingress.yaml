@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dish-lab-frontend
+  namespace: apps
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: dish-lab.skravops.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dish-lab-frontend
+                port:
+                  number: 80

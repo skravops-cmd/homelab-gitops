@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dish-lab-frontend
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dish-lab-frontend
+  template:
+    metadata:
+      labels:
+        app: dish-lab-frontend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
+      containers:
+        - name: dish-lab-frontend
+          image: ghcr.io/dish-lab/stage-frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
