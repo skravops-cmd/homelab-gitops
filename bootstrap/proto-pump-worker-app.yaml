@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: proto-pump-worker
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/skravops-cmd/homelab-gitops.git
+    targetRevision: main
+    path: apps/proto-pump-worker/base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

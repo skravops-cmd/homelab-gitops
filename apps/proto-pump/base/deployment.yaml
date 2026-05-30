@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proto-pump
+  namespace: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: proto-pump
+  template:
+    metadata:
+      labels:
+        app: proto-pump
+    spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
+      containers:
+        - name: api
+          image: ghcr.io/proto-pump/stage:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: proto-pump-secret
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proto-pump-worker
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proto-pump-worker
+  template:
+    metadata:
+      labels:
+        app: proto-pump-worker
+    spec:
+      imagePullSecrets:
+        - name: ghcr-regcred
+      containers:
+        - name: worker
+          image: ghcr.io/proto-pump/stage:latest
+          command: ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
+          envFrom:
+            - secretRef:
+                name: proto-pump-secret
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+        - name: beat
+          image: ghcr.io/proto-pump/stage:latest
+          command: ["celery", "-A", "app.workers.celery_app", "beat", "--loglevel=info"]
+          envFrom:
+            - secretRef:
+                name: proto-pump-secret
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
